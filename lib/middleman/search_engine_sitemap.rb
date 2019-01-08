@@ -7,8 +7,6 @@ module Middleman
     TEMPLATES_DIR = File.expand_path(File.join('..', 'search_engine_sitemap', 'templates'), __FILE__)
 
     class Extension < Middleman::Extension
-      option :default_priority, 0.5, 'Default page priority for search engine sitemap'
-      option :default_change_frequency, 'monthly', 'Default page priority for search engine sitemap'
       option :sitemap_xml_path, 'sitemap.xml', 'Path to search engine sitemap'
       option :exclude_attr, 'hide_from_sitemap'
       option :process_url, nil, 'Proc for processing a URL'
@@ -52,15 +50,8 @@ module Middleman
         source_file = template('sitemap.xml.builder')
 
         Middleman::Sitemap::Resource.new(app.sitemap, sitemap_xml_path, source_file).tap do |resource|
-          resource.add_metadata(options: { layout: false }, locals: sitemap_locals)
+          resource.add_metadata(options: { layout: false })
         end
-      end
-
-      def sitemap_locals
-        {
-          default_priority: options.default_priority,
-          default_change_frequency: options.default_change_frequency
-        }
       end
 
       def template(path)
