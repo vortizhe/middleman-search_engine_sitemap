@@ -28,7 +28,6 @@ module Middleman
         def resources_for_sitemap
           sitemap.resources
             .select {|r| extensions[:search_engine_sitemap].resource_in_sitemap?(r) }
-            .select {|r| r.metadata[:options][:locale] == I18n.default_locale }
         end
 
         def localized_resource resource, locale
