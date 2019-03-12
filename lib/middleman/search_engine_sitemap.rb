@@ -26,8 +26,7 @@ module Middleman
 
       helpers do
         def resources_for_sitemap
-          sitemap.resources
-            .select {|r| extensions[:search_engine_sitemap].resource_in_sitemap?(r) }
+          sitemap.resources.select {|r| extensions[:search_engine_sitemap].resource_in_sitemap?(r) }
         end
 
         def localized_resource resource, locale
