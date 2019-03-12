@@ -26,9 +26,21 @@ module Middleman
 
       helpers do
         def resources_for_sitemap
-          sitemap.resources.select do |resource|
-            extensions[:search_engine_sitemap].resource_in_sitemap?(resource)
-          end
+          sitemap.resources
+            .select {|r| extensions[:search_engine_sitemap].resource_in_sitemap?(r) }
+            .select {|r| r.metadata[:options][:locale] == I18n.default_locale }
+        end
+
+        def localized_resource resource, locale
+          original_target = resource.target.sub(/\.[a-z]{2}\.html$/, ".html")
+          resource = sitemap.resources
+            .select { |r| r.try(:target) }
+            .select { |r| r.target.match(original_target) }
+            .find { |r| r.metadata[:options][:locale] == locale}
+
+          raise "Can't find resource in sitemap for #{target} with #{original_target}" unless resource
+
+          resource
         end
       end
 
