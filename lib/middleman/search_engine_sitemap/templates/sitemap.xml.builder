@@ -8,7 +8,7 @@ xml.urlset 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', "xmlns:xhtm
         rel: "alternate",
         hreflang: "x-default",
         href: default_url
-      ) end if page.metadata[:options][:locale] == I18n.default_locale
+      ) if page.metadata[:options][:locale] == I18n.default_locale
       locales.each do |locale|
         url = localized_resource(page, locale).url
         xml.tag!("xhtml:link",
