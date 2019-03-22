@@ -4,7 +4,11 @@ xml.urlset 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', "xmlns:xhtm
     xml.url do
       default_url = extensions[:search_engine_sitemap].process_url(File.join(app.config.url_root, page.url))
       xml.loc default_url
-      xml.link rel: "alternate", hreflang: "x-default", href: default_url if page.metadata[:options][:locale] == I18n.default_locale
+      xml.tag!("xhtml:link",
+        rel: "alternate",
+        hreflang: "x-default",
+        href: default_url
+      ) end if page.metadata[:options][:locale] == I18n.default_locale
       locales.each do |locale|
         url = localized_resource(page, locale).url
         xml.tag!("xhtml:link",
